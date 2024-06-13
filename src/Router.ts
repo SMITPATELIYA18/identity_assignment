@@ -83,7 +83,12 @@ router.post("/identity", async (req, res) => {
             "contact": responseBody,
         });
     }
-
 });
+
+router.get("/_testing", (req, res) => {
+    return res.status(200).json({
+        "message": "Working fine",
+    });
+})
 
 export default router;

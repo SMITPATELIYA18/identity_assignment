@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import connection from "./database";
 import Router from "./Router";
+import cron from "node-cron";
+import * as https from "node:https";
 
 const app: express.Express = express();
 dotenv.config();
@@ -22,5 +24,15 @@ connection.connect((err) => {
 
     app.listen(PORT, () => {
         console.log(`Listening on ${PORT}`);
+        cron.schedule('*/60 * * * *', async () => {
+            try {
+                // Make an HTTP request to your endpoint
+                https.get('https://identity-assignment.onrender.com/_testing', response => {
+                    console.log('HTTP request successful:', response);
+                });
+            } catch (error) {
+                console.error('Error making HTTP request:', error);
+            }
+        });
     });
 });
